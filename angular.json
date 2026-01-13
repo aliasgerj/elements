@@ -55,6 +55,42 @@
           "options": {
             "tsConfig": "projects/filter-lib/tsconfig.spec.json"
           }
+        },
+        "build-element": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/filter-lib-element",
+            "index": "projects/filter-lib/src/index.html",
+            "browser": "projects/filter-lib/src/main.ts",
+            "polyfills": [],
+            "tsConfig": "projects/filter-lib/tsconfig.element.json",
+            "assets": [],
+            "styles": [],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

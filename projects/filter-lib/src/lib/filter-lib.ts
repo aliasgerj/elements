@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <p>
-      filter-lib works!
+      filter-lib works with elements!
     </p>
   `,
   styles: ``,

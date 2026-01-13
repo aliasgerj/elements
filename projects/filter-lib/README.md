@@ -18,6 +18,8 @@ ng generate --help
 
 ## Building
 
+### Building as a Library
+
 To build the library, run:
 
 ```bash
@@ -25,6 +27,50 @@ ng build filter-lib
 ```
 
 This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+
+### Building as an Angular Element (Custom Element)
+
+To build the library as a standalone Angular Element that can be used in any HTML page (including non-Angular projects), run:
+
+```bash
+npm run build:filter-element
+```
+
+Or:
+
+```bash
+ng build filter-lib --configuration build-element
+```
+
+This will create a bundle in `dist/filter-lib-element/` that you can use in any HTML page.
+
+### Using the Custom Element
+
+After building the element, you can use it in any HTML page:
+
+```html
+<!doctype html>
+<html>
+<head>
+  <title>My App</title>
+</head>
+<body>
+  <!-- Use the custom element -->
+  <filter-element></filter-element>
+  
+  <!-- Load the Angular element bundle -->
+  <!-- Note: The filename includes a hash that changes on each build -->
+  <!-- Check dist/filter-lib-element/browser/ for the actual filename -->
+  <script type="module" src="path/to/dist/filter-lib-element/browser/main-XXXXX.js"></script>
+</body>
+</html>
+```
+
+The custom element is registered as `<filter-element>` and can be used just like any other HTML element. 
+
+**Note:** The generated JavaScript file includes a content hash in its filename (e.g., `main-CHSX62GP.js`). You'll need to update the script tag with the actual filename after each build, or use a build tool to automatically inject it.
+
+The built `index.html` in `dist/filter-lib-element/browser/` serves as a working example of the custom element.
 
 ### Publishing the Library
 
