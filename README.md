@@ -6,9 +6,10 @@ This project demonstrates how to create Angular libraries in a monorepo workspac
 
 1. [Creating the Angular Workspace](#1-creating-the-angular-workspace)
 2. [Creating Libraries in the Workspace](#2-creating-libraries-in-the-workspace)
-3. [Adding Angular Elements Support](#3-adding-angular-elements-support)
-4. [Building the Element Output](#4-building-the-element-output)
-5. [Using the Custom Element](#5-using-the-custom-element)
+3. [Adding Applications to the Workspace](#3-adding-applications-to-the-workspace)
+4. [Adding Angular Elements Support](#4-adding-angular-elements-support)
+5. [Building the Element Output](#5-building-the-element-output)
+6. [Using the Custom Element](#6-using-the-custom-element)
 
 ---
 
@@ -92,7 +93,146 @@ confirmation-lib/
 
 ---
 
-## 3. Adding Angular Elements Support
+## 3. Adding Applications to the Workspace
+
+In addition to libraries, you can also add full Angular applications to your workspace. This is useful for:
+- Testing libraries in a real application context
+- Creating demo applications
+- Building multiple applications that share libraries
+- Developing applications that consume your custom elements
+
+### Step 3.1: Generate the first application (support-app)
+
+```bash
+ng generate application support-app
+```
+
+**What this does:**
+- Creates a new Angular application in `projects/support-app/`
+- Sets up a complete application structure with:
+  - `src/app/` - Application source code (components, services, etc.)
+  - `src/main.ts` - Application bootstrap file
+  - `src/index.html` - Main HTML template
+  - `src/styles.scss` - Global styles
+  - `public/` - Static assets (favicon, etc.)
+  - `tsconfig.app.json` - TypeScript configuration for the app
+
+### Step 3.2: Generate the second application (customer-app)
+
+```bash
+ng generate application customer-app
+```
+
+**What this does:**
+- Creates another application in `projects/customer-app/`
+- Same structure as support-app
+- Both applications are independent and can be built/served separately
+
+### Step 3.3: Verify the workspace structure
+
+After adding applications, your workspace structure should look like:
+
+```
+confirmation-lib/
+├── projects/
+│   ├── grid-lib/          # Library
+│   ├── filter-lib/         # Library
+│   ├── support-app/        # Application
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── app.ts
+│   │   │   │   ├── app.html
+│   │   │   │   └── app.scss
+│   │   │   ├── main.ts
+│   │   │   ├── index.html
+│   │   │   └── styles.scss
+│   │   └── public/
+│   └── customer-app/       # Application
+│       ├── src/
+│       │   ├── app/
+│       │   │   ├── app.ts
+│       │   │   ├── app.html
+│       │   │   └── app.scss
+│       │   ├── main.ts
+│       │   ├── index.html
+│       │   └── styles.scss
+│       └── public/
+├── angular.json            # Configuration for all projects
+├── package.json
+└── tsconfig.json
+```
+
+**Key Points:**
+- Applications are added to `angular.json` automatically
+- Each application has its own `serve` configuration for development
+- Applications can import and use libraries from the same workspace
+- Applications can consume custom elements built from libraries
+
+### Step 3.4: Running the applications
+
+You can run any application in development mode using the Angular CLI:
+
+**Run support-app:**
+```bash
+ng serve support-app
+```
+
+**Run customer-app:**
+```bash
+ng serve customer-app
+```
+
+**What happens:**
+- Angular starts a development server (default: `http://localhost:4200`)
+- The application is compiled and served with hot-reload
+- Changes to source files trigger automatic rebuilds
+- The browser automatically refreshes when changes are detected
+
+**Alternative: Using project-specific serve commands**
+
+You can also use the `ng run` command with the serve target:
+
+```bash
+# Serve support-app
+ng run support-app:serve
+
+# Serve customer-app
+ng run customer-app:serve
+```
+
+**Running multiple applications simultaneously:**
+
+Since each application runs on port 4200 by default, you'll need to specify different ports when running multiple apps:
+
+```bash
+# Terminal 1: Run support-app on port 4200
+ng serve support-app
+
+# Terminal 2: Run customer-app on port 4201
+ng serve customer-app --port 4201
+```
+
+**Building applications for production:**
+
+```bash
+# Build support-app
+ng build support-app
+
+# Build customer-app
+ng build customer-app
+```
+
+The production builds are output to `dist/support-app/` and `dist/customer-app/` respectively.
+
+**Educational Notes:**
+- Applications in a monorepo share the same `node_modules` and dependencies
+- Applications can import libraries using TypeScript path mappings (configured in `tsconfig.json`)
+- This setup allows you to develop libraries and test them in real applications simultaneously
+- The workspace structure makes it easy to maintain multiple related projects together
+
+---
+
+## 4. Adding Angular Elements Support
 
 To convert an Angular component into a Custom Element (Web Component), we need to add Angular Elements support to the `filter-lib` library.
 
@@ -182,7 +322,7 @@ Create `projects/filter-lib/src/index.html`:
 
 ---
 
-## 4. Building the Element Output
+## 5. Building the Element Output
 
 ### Step 4.1: Add build configuration to angular.json
 
@@ -269,7 +409,7 @@ dist/filter-lib-element/
 
 ---
 
-## 5. Using the Custom Element
+## 6. Using the Custom Element
 
 ### Step 5.1: View the built example
 
@@ -362,6 +502,14 @@ ng build filter-lib
 
 # Build the element (for standalone use)
 npm run build:filter-element
+
+# Serve applications in development mode
+ng serve support-app
+ng serve customer-app
+
+# Build applications for production
+ng build support-app
+ng build customer-app
 
 # Run tests
 ng test
