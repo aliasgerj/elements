@@ -4,6 +4,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "strict": true,
+    "paths": {
+      "filter-lib": [
+        "./dist/filter-lib"
+      ],
+      "grid-lib": [
+        "./dist/grid-lib"
+      ]
+    },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -21,5 +29,19 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": []
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/grid-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/grid-lib/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/filter-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/filter-lib/tsconfig.spec.json"
+    }
+  ]
 }
