@@ -417,9 +417,14 @@ The build process creates `dist/filter-lib-element/browser/index.html` which you
 
 ```bash
 cd dist/filter-lib-element/browser
-python3 -m http.server 8000
+npx http-server -p 8000
 # Open http://localhost:8000/index.html
 ```
+
+**Explanation:**
+- `npx http-server` - Runs the http-server package without needing to install it globally
+- `-p 8000` - Specifies the port number (default is 8080 if not specified)
+- ES modules require a web server and cannot be loaded using the `file://` protocol
 
 ### Step 5.2: Use in any HTML page
 
